@@ -2,7 +2,7 @@
 
 - [x] Who is currently in space(via API)
 - [x] Displays a nice looking webpage with the people currently in space
-- [ ] ISS location and show on map
+- [x] ISS location and show on map
 - [ ] Use the clients location to say when the ISS will pass over next.
 
 We will leverage the following technology
