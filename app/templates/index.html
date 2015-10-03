@@ -1,0 +1,24 @@
+<!-- Extends base.html -->
+{% extends "base.html" %}
+{% block content %}
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Astronaut</th>
+            <th>Craft</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for person in people %}
+            <tr>
+                <td>
+                    {{person["name"]}}
+                </td>
+                <td>
+                    {{person["craft"]}}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
