@@ -21,4 +21,10 @@
         {% endfor %}
     </tbody>
 </table>
+<div id="iss_map">
+    {{googlemap("iss_map",
+        lat=iss_lat, lng=iss_lon,
+        markers=[(iss_lat, iss_lon)],
+        style="height:600px; width:600px")}}
+</div><!-- end .iss_map -->
 {% endblock %}
