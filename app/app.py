@@ -2,13 +2,29 @@
 
 from flask import Flask, render_template
 import requests
+from flask_googlemaps import GoogleMaps
+
+
 app = Flask(__name__)
+GoogleMaps(app)
 
 
 @app.route('/')
 def index():
     people = get_space_people()
-    return render_template("index.html", people=people)
+    iss_lat, iss_lon = get_iss_location()
+    return render_template("index.html", people=people,
+                           iss_lat=iss_lat, iss_lon=iss_lon)
+
+
+def get_iss_location():
+    url = 'http://api.open-notify.org/iss-now.json'
+    response = requests.get(url)
+    response = response.json()
+    lat = response['iss_position']['latitude']
+    lon = response['iss_position']['longitude']
+
+    return (lat, lon)
 
 
 def get_space_people():
