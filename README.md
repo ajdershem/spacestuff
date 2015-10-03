@@ -1,7 +1,7 @@
 # Space Stuff
 
-- [ ] Who is currently in space(via API)
-- [ ] Displays a nice looking webpage with the people currently in space
+- [x] Who is currently in space(via API)
+- [x] Displays a nice looking webpage with the people currently in space
 - [ ] ISS location and show on map
 - [ ] Use the clients location to say when the ISS will pass over next.
 
@@ -20,4 +20,9 @@ git clone git@github.com:ajdershem/spacestuff.git
 cd spacestuff
 mkvirtualenv --python=`which python3` spacestuff
 pip3 install -r requirements.txt
+```
+### run
+```
+   cd app
+   python3 app.py
 ```
