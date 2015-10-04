@@ -23,6 +23,9 @@
 </table>
     {{googlemap("iss_map",
         lat=iss_lat, lng=iss_lon,
-        markers=[(iss_lat, iss_lon)],
-        style="height:600px; width:600px")}}
+        markers={url_for('static',filename='images/iss.png'): [(iss_lat, iss_lon)]},
+        style="height:600px; width:600px",
+        zoom=2)}}
 {% endblock %}
+
+<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
