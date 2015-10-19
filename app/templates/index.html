@@ -1,99 +1,38 @@
 <!-- Extends base.html -->
 {% extends "base.html" %}
 {% block content %}
-<p> Click the button to get your coordinates.</p>
-<button onclick="getLocation()">Get Location</button>
-<p id="demo"></p>
+<script src="{{ url_for('static', filename='js/iss_pass.js') }}"></script>
 
-<script>
-var x = document.getElementById("demo");
+<h3>ISS will pass your location next:</h3>
+<h4>Your Location: (<span id="userLat"></span>, <span id="userLon"></span>)</h4>
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showISSPassDates);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-//function showPosition(position) {
-//    x.innerHTML = "Latitude: " + position.coords.latitude + 
-//        "<br>Longititude: " + position.coords.longitude;
-//}
-
-function showISSPassDates(position) {
-    var lat = position.coords.latitude;
-    var lon = position.coords.longitude;
-    x.innerHTML = "lat: " + lat +
-        "<br>lon: " + lon;
-
-
-    //$.getJSON("http://api.open-notify.org/iss-pass.json?lat=" + "45.0 " + "&lon=" + "122.3" + "&alt=20&n=5&callback=?", function(data) {
-    //    data['response'].forEach(function (d) {
-    //                    var date = new Date(d['risetime']*1000);
-    //                             $('#isspass').append('<li>' + date.toString() + '</li>');
-    //                                 });
-//});
-//    var req = new XMLHttpRequest();
-//    req.addEventListener("load", console.log(this.responseText));
-//    req.open("GET", "http://localhost:5000/api/v1/issposition/" + lat + "/" + lon, false);
-//    req.send();
-var url = "http://localhost:5000/api/v1/issposition/" + lat + "/" + lon;
-    $.ajax({
-        url: url,
-        method: 'GET',
-        beforeSend: function (XMLHttpRequest) {
-
-            XMLHttpRequest.setRequestHeader("Accept", "application/json; odata=verbose");
-        },
-
-        cache: true,
-        error: function (data) {
-            console.log('nope');
-        },
-        success: function (data) {
-            console.log(data);
-            for (item in data["response"]){
-                console.log(data["response"][item]['risetime']);
-                        var date = new Date(data["response"][item]['risetime']*1000);
-                        console.log(date)
-                        $('#isspass').append('<li>' + date.toString() + '</li>');
-            }
-            // data.forEach(function (d) {
-           //             var date = new Date(d['risetime']*1000);
-           //                      $('#isspass').append('<li>' + date.toString() + '</li>');
-            }
-
-    });
-}
-</script>
 <ul id="isspass">
 </ul>
 <table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Astronaut</th>
-            <th>Craft</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for person in people %}
-            <tr>
-                <td>
-                    {{person["name"]}}
-                </td>
-                <td>
-                    {{person["craft"]}}
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>Astronaut</th>
+      <th>Craft</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for person in people %}
+      <tr>
+        <td>
+          {{person["name"]}}
+        </td>
+        <td>
+          {{person["craft"]}}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
 </table>
-    {{googlemap("iss_map",
-        lat=iss_lat, lng=iss_lon,
-        markers={url_for('static',filename='images/iss.png'): [(iss_lat, iss_lon)]},
-        style="height:600px; width:600px",
-        zoom=2)}}
+{{googlemap("iss_map",
+            lat=iss_lat, lng=iss_lon,
+            markers={url_for('static',filename='images/iss.png'): [(iss_lat, iss_lon)]},
+            style="height:600px; width:600px",
+            zoom=2)}}
+<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 {% endblock %}
 
-<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
