@@ -25,12 +25,21 @@ def get_iss_pass_time(lat, lon):
     response = requests.get(url)
     response = response.json()
 
-    # format dates
-    dates = [item['risetime'] for item in response['response']]
-    dates = [datetime.fromtimestamp(date).strftime("%b %d, %Y %H:%M")
-             for date in dates]
+    dates = datetime_to_tuple(response)
 
     return jsonify(dates=dates)
+
+
+def datetime_to_tuple(response):
+    list_o_dates = []
+
+    for item in response['response']:
+        date_time = datetime.fromtimestamp(item['risetime'])
+        date = date_time.strftime("%b %d, %Y")
+        time = date_time.strftime("%H:%M")
+        list_o_dates.append({'date': date, 'time': time})
+
+    return list_o_dates
 
 
 def get_iss_location():

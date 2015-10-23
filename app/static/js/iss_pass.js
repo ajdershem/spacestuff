@@ -1,7 +1,6 @@
-var userCoords = document.getElementById("userCoords");
-
 function showISSPassDates(lat, lon) {
-  var url = "http://localhost:5000/api/v1/issposition/" + lat + "/" + lon;
+  var base_url = window.location.origin;
+  var url = base_url + "/api/v1/issposition/" + lat + "/" + lon;
   $.ajax({
     url: url,
     method: 'GET',
@@ -14,9 +13,10 @@ function showISSPassDates(lat, lon) {
       console.log('no dice: ' + response);
     },
     success: function (response) {
-      console.log(response);
-      for (var date in response['dates']) {
-        $('#isspass').append('<li>' + response['dates'][date] + '</li>');
+      for (var item in response['dates']) {
+        var date = response['dates'][item]['date'];
+        var time = response['dates'][item]['time'];
+        $('#issPassTable').append('<tr><td>' + date + '</td>' + '<td>' + time + '</td></tr>');
       }
     }
   });
@@ -25,15 +25,24 @@ function showISSPassDates(lat, lon) {
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
-      var lat = position.coords.latitude;
-      var lon = position.coords.longitude;
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
 
-      document.getElementById("userLat").innerHTML = lat;
-      document.getElementById("userLon").innerHTML = lon;
-      showISSPassDates(lat, lon);
-    });
+        document.getElementById("userLat").innerHTML = lat;
+        document.getElementById("userLon").innerHTML = lon;
+        showISSPassDates(lat, lon);
+      },
+      function (error){
+        console.log(error.message);
+      },
+      {
+        timeout: 100,
+        enableHighAccuracy: true
+      }
+    );
   } else {
-    userCoords.innerHTML = "Geolocation is not supported by this browser.";
+    var issPass = document.getElementById("issPass");
+    issPass.innerHTML = "Geolocation is not supported by this browser.";
   }
 }
 
